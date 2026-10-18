@@ -4,12 +4,13 @@
     font-weight: 1000;
     /*https://hyperpix.net/fonts/digital-clock-fonts/*/
 }
-
+ /*Custom Font*/
 @font-face {
     font-family: digitalClock;
     src: url('../font/DS-DIGII.TTF');
 }
 
+/*Logo and Title*/
 #logo h1.title {
     font-family: digitalClock;
     font-size: 5rem;
@@ -23,10 +24,12 @@
     margin-top: 0px
 }
 
+/*Body Color*/
 body{
     background-color: rgb(0, 12, 0);
 }
 
+/*Buttons*/
 #buttons{
     display: flex;
     gap: 10px;
@@ -48,6 +51,7 @@ button:hover{
     animation: border 1s step-end infinite;
 }
 
+/*Animation for the _*/
 @keyframes blink_underline {
     0%, 100% { opacity: 1; }
     50% { opacity: 0; }
