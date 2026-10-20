@@ -1,0 +1,1 @@
+ There are many ways for you to contribute with the project, you can report bugs, give ideas, make observations about the code and the execution of it, this isn't a financial drived project, so no money will be accepted
