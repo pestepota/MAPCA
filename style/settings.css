@@ -12,7 +12,7 @@
 /*Custom Font*/
 @font-face {
     font-family: digitalClock;
-    src: url('/font/DS-DIGII.TTF');
+    src: url('../font/DS-DIGII.TTF');
 }
 
 body {
