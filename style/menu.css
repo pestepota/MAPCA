@@ -1,0 +1,150 @@
+:root {
+    --green-text: rgb(2, 209, 2);
+    --bg: rgb(0, 24, 0);
+}
+
+* {
+    font-family: 'Courier New', Courier, monospace;
+    color: var(--green-text);
+    font-weight: 500;
+}
+
+/*Custom Font*/
+@font-face {
+    font-family: digitalClock;
+    src: url('../font/DS-DIGII.TTF');
+}
+
+/*Logo and Title*/
+#logo h1.title {
+    font-family: digitalClock;
+    font-size: 9rem;
+    margin-bottom: -15px
+}
+
+#logo span.underline {
+    display: inline-block;
+    animation: blink_underline 1s step-end infinite;
+    font-family: digitalClock;
+    margin-top: 0px
+}
+
+#logo {
+    grid-area: header;
+    align-self: center;
+    margin-left: 80px;
+}
+
+body {
+    background-color: var(--bg);
+    margin: 0;
+    height: 100vh;
+    padding: 20px;
+    box-sizing: border-box;
+    display: grid;
+    grid-template-columns: repeat(2, 160px) 1fr 260px;
+    grid-template-rows: auto auto 1fr auto;
+    grid-template-areas:
+        "header   header   header sidebar"
+        "header   header   header sidebar"
+        ".        .        . sidebar"
+        "navbar   navbar   navbar sidebar";
+}
+
+nav {
+    grid-area: navbar;
+    align-self: end;
+    width: 100%;
+}
+
+#news-updates {
+    grid-area: sidebar;
+    border-left: 1px dashed var(--green-text);
+    padding-left: 15px;
+    height: 100%;
+    background-color: var(--bg);
+}
+
+/*Buttons*/
+#buttons {
+    display: flex;
+    gap: 35px;
+    font-size: x-large;
+    margin-bottom: 30px;
+    margin-left: 80px;
+    margin-right: 80px;
+}
+
+button,
+a {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: black;
+    border: 2px solid;
+    border-color: var(--green-text);
+    width: 300px;
+    height: 80px;
+    text-align: center;
+    text-decoration: none;
+}
+
+button:hover,
+a:hover {
+    scale: 1.05;
+    color: black;
+    background-color: var(--green-text);
+    border-color: black;
+    animation: border 1s step-end infinite;
+}
+
+/*Animation for the _*/
+@keyframes blink_underline {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0;
+    }
+}
+
+@keyframes border {
+
+    0%,
+    100% {
+        border-color: var(--green-text);
+    }
+
+    50% {
+        border-color: black;
+    }
+}
+
+.crt-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 9999;
+    pointer-events: none;
+    background:
+        linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.3) 50%),
+        radial-gradient(circle, rgba(0, 0, 0, 0) 70%, rgba(0, 0, 0, 0.8) 100%);
+    background-size: 100% 4px, 100% 100%;
+    animation: crt-flicker 0.15s infinite alternate;
+}
+
+/*Animation for the tv screen effect*/
+@keyframes crt-flicker {
+    0% {
+        opacity: 0.94;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
