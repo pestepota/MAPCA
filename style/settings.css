@@ -1,6 +1,6 @@
 :root {
     --green-text: rgb(2, 209, 2);
-    --bg: rgb(0, 2, 0);
+    --bg: rgb(0, 24, 0);
 }
 
 * {
@@ -35,7 +35,7 @@ body {
     background-color: black;
 }
 
-.footerButtons{
+.footerButtons {
     display: flex;
     flex-direction: column;
 }
@@ -48,7 +48,8 @@ body {
     align-self: center;
 }
 
-button, a {
+button,
+a {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -60,14 +61,42 @@ button, a {
     text-align: center;
     text-decoration: none;
     margin: 20px;
+    font-size: x-large;
 }
 
-button:hover, a:hover {
+button:hover,
+a:hover {
     scale: 1.05;
     color: black;
     background-color: var(--green-text);
     border-color: black;
     animation: border 1s step-end infinite;
+}
+
+.crt-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 9999;
+    pointer-events: none;
+    background:
+        linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.3) 50%),
+        radial-gradient(circle, rgba(0, 0, 0, 0) 70%, rgba(0, 0, 0, 0.8) 100%);
+    background-size: 100% 4px, 100% 100%;
+    animation: crt-flicker 0.15s infinite alternate;
+}
+
+/*Animation for the tv screen effect*/
+@keyframes crt-flicker {
+    0% {
+        opacity: 0.94;
+    }
+
+    100% {
+        opacity: 1;
+    }
 }
 
 /*Animation for the border*/
