@@ -32,7 +32,6 @@ body {
     padding: 10px;
     height: 20vh;
     width: 25rem;
-    background-color: black;
 }
 
 .footerButtons {
@@ -53,7 +52,6 @@ a {
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: black;
     border: 2px solid;
     border-color: var(--green-text);
     width: 300px;
