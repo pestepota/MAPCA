@@ -1,24 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MAPCA</title>
     <link rel="stylesheet" href="./style/menu.css">
 </head>
+
 <body>
+    <!-- Logo and Title Section -->
     <div id="logo">
         <h1 class="title">MAPCA<span class="underline">_</span></h1>
         <h4 class="subtitle">Generative Cartographic Map System</h4>
-        
     </div>
+
+    <!-- Navigation Menu -->
     <nav>
         <div id="buttons">
-            <a href="./html/createmp.html"class="genMapButton">Start Map Creation</a>
-            <a href="./html/svmap.html"class="savedMapsButton">Saved Maps</a>
-            <a href="./html/websettings.html"class="webSettings">Settings</a>
+            <a href="./html/createmp.html" class="genMapButton">Start Map Creation</a>
+            <a href="./html/svmap.html" class="savedMapsButton">Saved Maps</a>
+            <button id="open-settings" class="webSettings">Settings</button>
         </div>
     </nav>
+
+    <!-- News and Updates Sidebar -->
     <div id="news-updates">
         <h2>NEWS AND UPDATES<br>----------------</h2>
         <p>[UPDATE] Added Biome configuration and customization!</p>
@@ -26,7 +32,91 @@
         <p>[PATCH] Fixed UI not customizing</p>
         <p>-------------------------</p>
     </div>
+
+    <!-- Settings Slide-out Panel -->
+    <div id="settings-panel">
+        <div id="settings-header">
+            <h2>SETTINGS</h2>
+            <button id="close-settings" class="close-btn">X</button>
+        </div>
+        <div id="settingsBoard">
+            <div class="configItem">
+                <label>Color Presets</label>
+                <div class="preset-buttons">
+                    <button class="preset-btn" data-text="#02c802" data-bg="#001200">Default</button>
+                    <button class="preset-btn" data-text="#ff77aa" data-bg="#1a0011">Pink</button>
+                    <button class="preset-btn" data-text="#00ffff" data-bg="#000d1a">Blue</button>
+                    <button class="preset-btn" data-text="#ffffff" data-bg="#000000">Mono</button>
+                </div>
+            </div>
+            <div class="configItem">
+                <label for="mainColorInput">Main Color</label>
+                <input type="color" id="mainColorInput" value="#02c802">
+            </div>
+            <div class="configItem">
+                <label for="bgColorInput">Background Color</label>
+                <input type="color" id="bgColorInput" value="#001200">
+            </div>
+        </div>
+        <div class="footerButtons">
+            <button id="save-settings" style="width: 100%; height: 50px;">Save</button>
+        </div>
+    </div>
+
+    <!-- CRT Screen Overlay Effect -->
     <div class="crt-overlay"></div>
 
+    <script>
+        const openBtn = document.getElementById('open-settings');
+        const closeBtn = document.getElementById('close-settings');
+        const settingsPanel = document.getElementById('settings-panel');
+        const newsUpdates = document.getElementById('news-updates');
+        const mainColorInput = document.getElementById('mainColorInput');
+        const bgColorInput = document.getElementById('bgColorInput');
+        const saveBtn = document.getElementById('save-settings');
+        const presetBtns = document.querySelectorAll('.preset-btn');
+
+        openBtn.addEventListener('click', () => {
+            newsUpdates.classList.add('slide-out');
+            setTimeout(() => {
+                settingsPanel.classList.add('active');
+            }, 250);
+        });
+
+        const closeSettings = () => {
+            settingsPanel.classList.remove('active');
+            setTimeout(() => {
+                newsUpdates.classList.remove('slide-out');
+            }, 250);
+        };
+
+        closeBtn.addEventListener('click', closeSettings);
+        saveBtn.addEventListener('click', closeSettings);
+
+        // Apply color themes via preset buttons
+        presetBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const txtColor = btn.getAttribute('data-text');
+                const bgColor = btn.getAttribute('data-bg');
+
+                document.documentElement.style.setProperty('--text', txtColor);
+                document.documentElement.style.setProperty('--bg', bgColor);
+
+                mainColorInput.value = txtColor;
+                bgColorInput.value = bgColor;
+            });
+        });
+
+        // Real-time main text color change
+        mainColorInput.addEventListener('input', (e) => {
+            document.documentElement.style.setProperty('--text', e.target.value);
+        });
+
+        // Real-time background color change
+        bgColorInput.addEventListener('input', (e) => {
+            document.documentElement.style.setProperty('--bg', e.target.value);
+        });
+    </script>
 </body>
+
 </html>
