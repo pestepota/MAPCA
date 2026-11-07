@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MAPCA - Map Generator</title>
+    <link rel="stylesheet" href="/style/rtmap.css">
+</head>
+
+<body>
+    <div class="rtmap-layout">
+        <div class="config-sidebar">
+            <div class="top-bar-rt">
+                <h2>GENERATOR</h2>
+            </div>
+
+            <div class="config-group">
+                <label for="map-seed">Map Seed:</label>
+                <input type="text" id="map-seed" placeholder="e.g. 123456">
+            </div>
+
+            <div class="config-group">
+                <label for="map-size">Map Size:</label>
+                <select id="map-size">
+                    <option value="small">Small (50x50)</option>
+                    <option value="medium">Medium (100x100)</option>
+                    <option value="large">Large (200x200)</option>
+                </select>
+            </div>
+
+            <div class="config-group">
+                <label for="terrain-type">Terrain Type:</label>
+                <select id="terrain-type">
+                    <option value="archipelago">Archipelago</option>
+                    <option value="continents">Continents</option>
+                    <option value="pangea">Pangea</option>
+                </select>
+            </div>
+
+            <!-- Pietro, pfv, se for adicionar alguma configuração extra faz no mesmo padrão e adiciona elas numa div em baixo dessa div a seguir-->
+            <div class="config-group" id="friend-custom-configs">
+                <label>Custom Options:</label>
+                <p>[Placeholder para configs adicionais de JS]
+                </p>
+            </div>
+
+            <button id="generate-btn">Generate Map</button>
+            <a href="/index.html">Back</a>
+        </div>
+
+        <div class="map-viewport" id="mapViewport">
+            <h3>[ MAP CANVAS / OUTPUT ]</h3>
+        </div>
+    </div>
+
+    <div class="crt-overlay"></div>
+
+    <script>
+        // Simulation (not the real code)
+        document.getElementById('generate-btn').addEventListener('click', () => {
+            const seed = document.getElementById('map-seed').value;
+            const size = document.getElementById('map-size').value;
+
+            const viewport = document.getElementById('mapViewport');
+            viewport.innerHTML = `<h3 style="color: var(--green-text);">Generating map (Seed: ${seed || 'Random'})...</h3>`;
+
+            setTimeout(() => {
+                viewport.innerHTML = `<h3 style="color: var(--green-text);">Map Generated! [Size: ${size.toUpperCase()}]</h3>`;
+            }, 800);
+        });
+    </script>
+</body>
+
+</html>
