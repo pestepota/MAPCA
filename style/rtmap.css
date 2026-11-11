@@ -170,3 +170,9 @@ a {
     border-bottom: 2px dashed var(--text);
     padding-bottom: 10px;
 }
+
+/*version*/
+footer {
+    position: absolute;
+    bottom: 0px;
+}

@@ -58,6 +58,7 @@ nav {
     width: 100%;
 }
 
+/*News and Updates*/
 #news-updates {
     grid-area: sidebar;
     border-left: 2px dashed var(--text);
@@ -142,6 +143,7 @@ a:hover {
     }
 }
 
+/*CRT overlay*/
 .crt-overlay {
     position: absolute;
     top: 0;
@@ -254,4 +256,10 @@ a:hover {
     background: transparent;
     border: 1px solid var(--text);
     cursor: pointer;
+}
+
+/*version*/
+footer {
+    position: absolute;
+    bottom: 0px;
 }

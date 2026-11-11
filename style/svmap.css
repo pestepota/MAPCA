@@ -172,3 +172,9 @@ a:hover {
     height: 55px;
     font-size: large;
 }
+
+/*version*/
+footer {
+    position: absolute;
+    bottom: 0px;
+}
