@@ -43,8 +43,9 @@
             <div class="configItem">
                 <label>Color Presets</label>
                 <div class="preset-buttons">
-                    <button class="preset-btn" data-text="#02c802" data-bg="#001200">Default</button>
+                    <button class="preset-btn" data-text="#02c802" data-bg="#001200">Matrix</button>
                     <button class="preset-btn" data-text="#ff77aa" data-bg="#1a0011">Pink</button>
+                    <button class="preset-btn" data-text="#910091" data-bg="#0E0014">Violet</button>
                     <button class="preset-btn" data-text="#00ffff" data-bg="#000d1a">Blue</button>
                     <button class="preset-btn" data-text="#ffffff" data-bg="#000000">Mono</button>
                 </div>
@@ -80,14 +81,14 @@
             newsUpdates.classList.add('slide-out');
             setTimeout(() => {
                 settingsPanel.classList.add('active');
-            }, 250);
+            }, 0);
         });
 
         const closeSettings = () => {
             settingsPanel.classList.remove('active');
             setTimeout(() => {
                 newsUpdates.classList.remove('slide-out');
-            }, 250);
+            }, 0);
         };
 
         closeBtn.addEventListener('click', closeSettings);
