@@ -40,9 +40,22 @@
 
             <!-- Pietro, pfv, se for adicionar alguma configuração extra faz no mesmo padrão e adiciona elas numa div em baixo dessa div a seguir-->
             <div class="config-group" id="friend-custom-configs">
-                <label>Custom Options:</label>
-                <p>[Placeholder para configs adicionais de JS]
-                </p>
+                <label for="country-mode">Country Generation:</label>
+                <select id="country-mode">
+                    <option value="automatic">Automatic</option>
+                    <option value="manual">Manual</option>
+                </select>
+
+                <div class="config-group" id="automatic-config">
+                    <label for="country-count">Number of Countries:</label>
+                    <input type="number" id="country-count" min="1" value="15">
+                </div>
+
+                <div class="config-group" id="manual-config" hidden>
+                    <label>Countries:</label>
+                    <div id="country-list"></div>
+                    <button type="button" id="add-country-btn">Add Country</button>
+                </div>
             </div>
 
             <button id="generate-btn">Generate Map</button>
@@ -50,27 +63,13 @@
         </div>
 
         <div class="map-viewport" id="mapViewport">
-            <h3>[ MAP CANVAS / OUTPUT ]</h3>
+            <canvas id="mapCanvas"></canvas>
         </div>
     </div>
 
     <div class="crt-overlay"></div>
 
-    <script>
-        // Simulation (not the real code)
-        document.getElementById('generate-btn').addEventListener('click', () => {
-            const seed = document.getElementById('map-seed').value;
-            const size = document.getElementById('map-size').value;
-
-            const viewport = document.getElementById('mapViewport');
-            viewport.innerHTML = `<h3 style="color: var(--green-text);">Generating map (Seed: ${seed || 'Random'})...</h3>`;
-
-            setTimeout(() => {
-                viewport.innerHTML = `<h3 style="color: var(--green-text);">Map Generated! [Size: ${size.toUpperCase()}]</h3>`;
-            }, 800);
-        });
-    </script>
-
+    <script type="module" src="../js/app.js"></script>
         <!--version-->
     <footer>
         <p class="version">version 0.00 prealpha</p>
