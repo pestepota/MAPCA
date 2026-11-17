@@ -67,7 +67,10 @@
     <!-- CRT Screen Overlay Effect -->
     <div class="crt-overlay"></div>
 
-    <script>
+    <script type="module">
+        import {
+            getSettings, saveSettings, applySettings
+        } from "./js/settings.js"
 
         /*Settings panel*/
         const openBtn = document.getElementById('open-settings');
@@ -78,6 +81,10 @@
         const bgColorInput = document.getElementById('bgColorInput');
         const saveBtn = document.getElementById('save-settings');
         const presetBtns = document.querySelectorAll('.preset-btn');
+
+        const settings = applySettings();
+            mainColorInput.value = settings.mainColor;
+            bgColorInput.value = settings.bgColor;
 
         openBtn.addEventListener('click', () => {
             newsUpdates.classList.add('slide-out');
@@ -94,7 +101,10 @@
         };
 
         closeBtn.addEventListener('click', closeSettings);
-        saveBtn.addEventListener('click', closeSettings);
+        saveBtn.addEventListener('click', () => {
+            saveSettings(mainColorInput.value, bgColorInput.value)
+            closeSettings();
+        });
 
         // Apply color themes via preset buttons
         presetBtns.forEach(btn => {

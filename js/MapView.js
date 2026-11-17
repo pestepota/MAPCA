@@ -1,3 +1,5 @@
+import { getSettings } from "./settings.js";
+
 export class MapView {
 
 
@@ -76,6 +78,8 @@ export class MapView {
     }
 
     drawTerrain() {
+        const settings = getSettings();
+
         const width = this.canvas.width;
         const height = this.canvas.height;
 
@@ -85,13 +89,13 @@ export class MapView {
         const cellWidth = width / gridWidth;
         const cellHeight = height / gridHeight;
 
-        this.context.fillStyle = "#001200"//001200/009500
+        this.context.fillStyle = settings.bgColor
         this.context.fillRect(0, 0, width, height);
 
         for (let y = 0; y < gridHeight; y++) {
             for (let x = 0; x < gridWidth; x++) {
                 if (this.model.grid[y][x] >= 0) {
-                    this.context.fillStyle = "#009500";
+                    this.context.fillStyle = settings.mainColor;
 
                     this.context.fillRect(x * cellWidth, y * cellHeight, Math.ceil(cellWidth) + 1, Math.ceil(cellHeight) + 1);
                 }
@@ -101,6 +105,8 @@ export class MapView {
 
 
     drawBorders() {
+        const settings = getSettings();
+
         const grid = this.model.grid;
         const width = this.model.mapWidth;
         const height = this.model.mapHeight;
@@ -116,7 +122,7 @@ export class MapView {
         } 
 
         ctx.beginPath();
-        ctx.strokeStyle = "#001200";
+        ctx.strokeStyle = settings.bgColor;
         ctx.lineWidth = 1.5;
 
         for (let y = 0; y < height; y++) {
@@ -145,14 +151,16 @@ export class MapView {
     }
 
     drawCountryNames() {
+        const settings = getSettings();
+
         const ctx = this.context;
 
         const cellWidth = this.canvas.width / this.model.mapWidth;
         const cellHeight = this.canvas.height / this.model.mapHeight;
 
         ctx.save();
-        ctx.fillStyle = "#202020";
-        ctx.strokeStyle = "#202020";
+        ctx.fillStyle = settings.bgColor;
+        ctx.strokeStyle = settings.mainColor;
         ctx.lineWidth = 0.5;
         ctx.textAlign = "center";
         ctx.textBaseline = "middle";

@@ -1,3 +1,7 @@
+import { applySettings } from "./settings.js";
+
+applySettings();
+
 const mapGrid = document.querySelector(".map-grid");
 
 function getSavedMaps() {

@@ -4,6 +4,9 @@ import { TerrainGenerator } from "./terrainGenerator.js";
 import { Random } from "./random.js";
 import { TerrainAnalyzer } from "./terrainAnalyz.js";
 import { PoliticalGenerator } from "./politicalGenerator.js";
+import { applySettings } from "./settings.js";
+
+applySettings();
 
 //html
 const canvas = document.getElementById("mapCanvas");
