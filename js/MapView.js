@@ -85,17 +85,103 @@ export class MapView {
         const cellWidth = width / gridWidth;
         const cellHeight = height / gridHeight;
 
-        this.context.fillStyle = "#009500"
+        this.context.fillStyle = "#001200"//001200/009500
         this.context.fillRect(0, 0, width, height);
 
         for (let y = 0; y < gridHeight; y++) {
             for (let x = 0; x < gridWidth; x++) {
-                if (this.model.grid[y][x] === 0) {
-                    this.context.fillStyle = "#001200";
+                if (this.model.grid[y][x] >= 0) {
+                    this.context.fillStyle = "#009500";
 
                     this.context.fillRect(x * cellWidth, y * cellHeight, Math.ceil(cellWidth) + 1, Math.ceil(cellHeight) + 1);
                 }
             }
         }
+    }
+
+
+    drawBorders() {
+        const grid = this.model.grid;
+        const width = this.model.mapWidth;
+        const height = this.model.mapHeight;
+
+        const cellWidth = this.canvas.width / width;
+        const cellHeight = this.canvas.height / height;
+
+        const ctx = this.context;
+
+        const variation = (x, y, axis) => {
+            const value = Math.sin(x * 127.1 + y * 311.7 + axis * 74.7) * 43758;
+            return (value - Math.floor(value))* 2-1;
+        } 
+
+        ctx.beginPath();
+        ctx.strokeStyle = "#001200";
+        ctx.lineWidth = 1.5;
+
+        for (let y = 0; y < height; y++) {
+            for (let x = 0; x < width; x++) {
+                const country = grid[y][x];
+                if (country <= 0) continue;
+                if (
+                    x < width - 1 &&
+                    grid[y][x + 1] > 0 &&
+                    grid[y][x + 1] !== country
+                ) {
+                    ctx.moveTo((x + 1) * cellWidth, y * cellHeight);
+                    ctx.lineTo((x + 1) * cellWidth, (y + 1) * cellHeight);
+                }
+                if (
+                    y < height - 1 &&
+                    grid[y + 1][x] > 0 &&
+                    grid[y + 1][x] !== country
+                ) {
+                    ctx.moveTo(x * cellWidth, (y + 1) * cellHeight);
+                    ctx.lineTo((x + 1) * cellWidth, (y + 1) * cellHeight);
+                }
+            }
+        }
+        ctx.stroke();
+    }
+
+    drawCountryNames() {
+        const ctx = this.context;
+
+        const cellWidth = this.canvas.width / this.model.mapWidth;
+        const cellHeight = this.canvas.height / this.model.mapHeight;
+
+        ctx.save();
+        ctx.fillStyle = "#202020";
+        ctx.strokeStyle = "#202020";
+        ctx.lineWidth = 0.5;
+        ctx.textAlign = "center";
+        ctx.textBaseline = "middle";
+        ctx.font = "bold 14px digitalClock";
+
+        for (const country of this.model.countries) {
+            let totalX = 0;
+            let totalY = 0;
+            let count = 0;
+
+            for (let y = 0; y < this.model.mapHeight; y++) {
+                for (let x = 0; x < this.model.mapWidth; x++) {
+                    if (this.model.grid[y][x] === country.id) {
+                        totalX += x;
+                        totalY += y;
+                        count++;
+                    }
+                }
+            }
+
+            if (count === 0) continue;
+
+            const centerX = (totalX / count + 0.5) * cellWidth;
+            const centerY = (totalY / count + 0.5) * cellHeight;
+
+            ctx.strokeText(country.name, centerX, centerY);
+            ctx.fillText(country.name, centerX, centerY);
+        }
+
+        ctx.restore();
     }
 }

@@ -3,48 +3,108 @@ import { MapModel } from "./MapModel.js";
 import { TerrainGenerator } from "./terrainGenerator.js";
 import { Random } from "./random.js";
 import { TerrainAnalyzer } from "./terrainAnalyz.js";
+import { PoliticalGenerator } from "./politicalGenerator.js";
 
-//HTML
+//html
+const canvas = document.getElementById("mapCanvas");
 const countryMode = document.getElementById("country-mode");
 const automaticConfig = document.getElementById("automatic-config");
+const terrainType = document.getElementById("terrain-type");
 const manualConfig = document.getElementById("manual-config");
+const countryCount = document.getElementById("country-count");
+const genButton = document.getElementById("generate-btn");
+const seedInput = document.getElementById("map-seed");
+const mapSize = document.getElementById("map-size");
+const saveButton = document.getElementById("save-map-btn");
 
-console.log(countryMode);
 
+//mvc
+const model = new MapModel(100, 100);
+const view = new MapView(canvas, model);
+
+//country config
 countryMode.addEventListener("change", () => {
     const isAutomatic = countryMode.value === "automatic";
     automaticConfig.hidden = !isAutomatic;
     manualConfig.hidden = isAutomatic;
 });
+let currentMapData = null;
 
-const canvas = document.getElementById("mapCanvas");
-const model = new MapModel(100, 100);
-const view = new MapView(canvas, model);
-const random = new Random("mapca1")
-const terrainGenerator = new TerrainGenerator(model, random)
+//mapgen
+function generateMap() {
+    currentMapData = null;
+    saveButton.disabled = true;
+    const seed = crypto.randomUUID();
+    seedInput.value = seed
+    const random = new Random(seed);
 
-terrainGenerator.generate("continents");
-const terrainAnalyz = new TerrainAnalyzer(model);
-const landmasses = terrainAnalyz.analyzeLandmasses();
+    //map dim
+    const dimensions = {
+        small: 50,
+        medium: 100,
+        large: 200
+    };
+    const size = dimensions[mapSize.value];
+    model.mapWidth = size;
+    model.mapHeight = size;
+    model.generateGrid();
+    model.countries = [];
 
-console.table(
-    landmasses.map(landmass => ({
-        id: landmass.id,
-        size: landmass.size,
-        minX: landmass.bounds.minX,
-        maxX: landmass.bounds.maxX,
-        minY: landmass.bounds.minY,
-        maxY: landmass.bounds.maxY}))    
-);
+    const terrainGenerator = new TerrainGenerator(model, random);
+    terrainGenerator.generate(terrainType.value);
 
-view.drawTerrain();
-//view.generateCountry(200,200);
-//console.log(model.countries);
+    const terrainAnalyzer = new TerrainAnalyzer(model);
+    terrainAnalyzer.removeSmallLandmasses(50);
 
-//view.drawTestMap();
+    if (countryMode.value === "manual") {
+        alert("Manual country generation is not implemented yet!");
+        return
+    }
 
-console.log(model.grid.length);
-console.log(model.grid[0].length);
-console.log(model.grid[10][20]);
+    const totalCountries = Math.max(1, Math.floor(Number(countryCount.value) || 1));
+    const politicalGenerator = new PoliticalGenerator(
+        model,
+        terrainAnalyzer,
+        random
+    );
+    politicalGenerator.generate(totalCountries);
 
+    currentMapData = {
+        seed: seed,
+        size: size,
+        terrain: terrainType.value,
+        grid: model.grid,
+        countries: model.countries,
+    };
+    saveButton.disabled = false;
 
+    //rendering
+    view.resize();
+    view.drawTerrain();
+    view.drawBorders();
+    view.drawCountryNames();
+
+    //console
+    console.log("Seed:", seed);
+    console.log("Map Size:", size);
+    console.log("terrain", terrainType.value);
+    console.log("Países:", model.countries);
+}
+
+function saveMap() {
+    if (!currentMapData) return;
+    const savedMaps = JSON.parse(localStorage.getItem("mapca_saved_maps") || "[]")
+    const mapData = {
+        id: crypto.randomUUID(),
+        name: `Map_${String(savedMaps.length + 1).padStart(3, "0")}.map`,
+        savedAt: new Date().toISOString(),
+        ...currentMapData
+    };
+    savedMaps.push(mapData);
+    localStorage.setItem("mapca_saved_maps", JSON.stringify(savedMaps));
+    alert("Map Saved")
+}
+
+genButton.addEventListener("click", generateMap);
+saveButton.addEventListener("click", saveMap);
+generateMap();
