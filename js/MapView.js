@@ -26,7 +26,7 @@ export class MapView {
         ctx.fillStyle = "#001200";
         ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
 
-        
+
         //test country
         for (const country of this.model.countries) {
             this.drawCountry(country.frontier)
@@ -35,10 +35,10 @@ export class MapView {
 
     //country generator
     generateCountry(centerX, centerY) {
-        const countryRadius = 45 + Math.pow(Math.random(),2) * 110;
+        const countryRadius = 45 + Math.pow(Math.random(), 2) * 110;
         const numberOfPoints = 18;
         const frontier = this.generateCountryFrontier(centerX, centerY, countryRadius, numberOfPoints);
-        const country = {frontier: frontier};
+        const country = { frontier: frontier };
         this.model.addCountry(country);
         return country
     }
@@ -73,5 +73,29 @@ export class MapView {
         ctx.strokeStyle = "#02c802";
         ctx.lineWidth = 3;
         ctx.stroke();
+    }
+
+    drawTerrain() {
+        const width = this.canvas.width;
+        const height = this.canvas.height;
+
+        const gridWidth = this.model.mapWidth;
+        const gridHeight = this.model.mapHeight;
+
+        const cellWidth = width / gridWidth;
+        const cellHeight = height / gridHeight;
+
+        this.context.fillStyle = "#009500"
+        this.context.fillRect(0, 0, width, height);
+
+        for (let y = 0; y < gridHeight; y++) {
+            for (let x = 0; x < gridWidth; x++) {
+                if (this.model.grid[y][x] === 0) {
+                    this.context.fillStyle = "#001200";
+
+                    this.context.fillRect(x * cellWidth, y * cellHeight, Math.ceil(cellWidth) + 1, Math.ceil(cellHeight) + 1);
+                }
+            }
+        }
     }
 }
